@@ -138,11 +138,11 @@ function zoomToTerminal() {
     // },
     onStart: () => {
       portfolioPage.style.display ='flex';
-      gsap.to(portfolioPage, {opacity: 1, duration: 1.3, ease: 'power2.inOut' });
+      gsap.to(portfolioPage, {opacity: 1, duration: 1, ease: 'power2.inOut' });
       gsap.to('#heading, .border', { 
         opacity: 0,
         x: '100%', 
-        duration: 1.1,
+        duration: 0.5,
         delay: 0.1,
       }); 
     },
@@ -180,25 +180,25 @@ function onClick(event) {
 
 renderer.domElement.addEventListener('click', onClick);
 
-document.getElementById('back-to-scene').addEventListener('click', () => {
-  const webglContainer = document.getElementById('webgl-container');
-  const portfolioPage = document.getElementById('portfolio-page');
-  resumeRendering();
+// document.getElementById('back-to-scene').addEventListener('click', () => {
+//   const webglContainer = document.getElementById('webgl-container');
+//   const portfolioPage = document.getElementById('portfolio-page');
+//   resumeRendering();
 
-  // Fade out portfolio
-  gsap.to(portfolioPage, {
-    opacity: 0,
-    duration: 1,
-    onComplete: () => {
-      portfolioPage.style.display = 'none';
-      webglContainer.style.display = 'block';
+//   // Fade out portfolio
+//   gsap.to(portfolioPage, {
+//     opacity: 0,
+//     duration: 1,
+//     onComplete: () => {
+//       portfolioPage.style.display = 'none';
+//       webglContainer.style.display = 'block';
 
-      // Fade in WebGL
-      gsap.to(webglContainer, { opacity: 1, duration: 1 });
-      controls.enabled = true; // Re-enable controls
-    },
-  });
-});
+//       // Fade in WebGL
+//       gsap.to(webglContainer, { opacity: 1, duration: 1 });
+//       controls.enabled = true; // Re-enable controls
+//     },
+//   });
+// });
 
 let isRendering = true;
 
@@ -214,11 +214,11 @@ function stopRendering() {
   isRendering = false;
 }
 
-// Resume rendering
-function resumeRendering() {
-  isRendering = true;
-  animate();
-}
+// // Resume rendering
+// function resumeRendering() {
+//   isRendering = true;
+//   animate();
+// }
 
 // Begin render loop
 animate();

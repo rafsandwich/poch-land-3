@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 @font-face {
     font-family: 'font1';
     src: local('font1'), url(fonts/neuropolitical-rg.otf), format('otf');
@@ -6,7 +7,10 @@
   body {
     background-color: black;
     margin: 0;
-    font-family: 'font1';
+    font-family: 'VT323', monospace;
+    color: #c8fcfc;
+    text-shadow: 0 0 1px #c8fcfc, 0 0 10px #c8fcfc;
+    overflow: hidden;
   }
   
   #heading {
@@ -15,10 +19,11 @@
     padding: 32px;
     opacity: 1;
     transition: transform 2s ease-out;
+    text-align: center;
   }
   
   .border {
-    background: linear-gradient(90deg, gray, 90%, black);
+    background: linear-gradient(90deg, #c8fcfc, 40%, black);
     height: 2px;
     width: 80vw;
     margin-top: 10px;
@@ -29,7 +34,9 @@
     color: rgb(215, 215, 215);
     font-size: 4em;
     margin: 0 auto;
+    margin-left: 10px;
     font-weight: 100;
+    font-family: 'font1';
     text-align:justify;
   }
   
@@ -45,6 +52,7 @@
   #progress {
     font-size: 3em;
     color: white;
+    text-shadow: 0 0 5px #c8fcfc, 0 0 10px #c8fcfc;
   }
   
   #portfolio-page {
@@ -57,9 +65,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: 'Courier New', monospace;
-    color: #00ffee;
-    background: linear-gradient(135deg, #67f39c, #ff00ff);
+    color: #202020;
+    background: radial-gradient(circle, #c8fcfc 0%, #242424 100%);
     text-align: center;
     z-index: 10;
     opacity: 0;
@@ -67,34 +74,42 @@
   }
 
   #portfolio-page h1 {
+    color: rgb(29, 29, 29);
     font-size: 3rem;
     margin-bottom: 1rem;
-    text-shadow: 0 0 10px #00ffee, 0 0 20px #ff00ff;
+    margin: 0 auto;
+    font-weight: 100;
+    font-family: 'VT323', monospace;
+    text-shadow: 0 0 10px #c9e6e6, 0 0 20px #c8fcfc;
   }
   
   #portfolio-page p {
     font-size: 1.5rem;
     max-width: 800px;
     line-height: 1.6;
+    text-shadow: 0 0 5px #c9e6e6, 0 0 10px #c8fcfc;
   }
   
   #portfolio-page button {
     margin-top: 2rem;
     padding: 0.5rem 1rem;
     font-size: 1rem;
-    background: #00ffee;
-    color: black;
-    border: none;
+    background: transparent;
+    color: #c8fcfc;
+    border: 1px solid #c8fcfc;
     cursor: pointer;
+    text-shadow: 0 0 5px #c8fcfc, 0 0 15px #c8fcfc;
     transition: all 0.3s ease;
   }
   
   #portfolio-page button:hover {
-    background: #ff00ff;
-    color: white;
+    background: #c8fcfc;
+    color: black;
+    text-shadow: none;
   }
   
   #webgl-container {
     width: 100%;
     height: 100%;
+    filter: brightness(0.8) contrast(1.2);
   }
