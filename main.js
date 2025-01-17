@@ -50,7 +50,7 @@ pinkSpotlight.position.set(15, 25, 10);
 pinkSpotlight.castShadow = true;
 pinkSpotlight.shadow.mapSize.width = 2048;
 pinkSpotlight.shadow.mapSize.height = 2048;
-pinkSpotlight.shadow.bias = -0.0002; // Reduce shadow artifacts
+pinkSpotlight.shadow.bias = -0.0003; // Reduce shadow artifacts
 scene.add(pinkSpotlight);
 
 // Spotlight 2: Green
@@ -59,7 +59,7 @@ greenSpotlight.position.set(-15, 25, -10);
 greenSpotlight.castShadow = true;
 greenSpotlight.shadow.mapSize.width = 2048;
 greenSpotlight.shadow.mapSize.height = 2048;
-greenSpotlight.shadow.bias = -0.0002;
+greenSpotlight.shadow.bias = -0.0003;
 scene.add(greenSpotlight);
 
 // Ambient Light for subtle global illumination
@@ -109,15 +109,21 @@ window.addEventListener('resize', () => {
 function zoomToTerminal() {
   if (!computerMesh) return; // ensure the model is loaded
 
-  // Define the target position
-  //const targetPosition = { x: 10, y: 2.8, z: -0.4 }; // Close to the screen
+  // Define the target camera position
 
-  const targetPosition = { x: -5, y: 8.5, z: -6.5 }; // Close to the screen
+  //const targetPosition = { x: 10, y: 2.8, z: -0.4 };
+  //const targetPosition = { x: -5, y: 8.5, z: -6.5 }; 
+  const targetPosition = { x: -5.2, y: 8.8, z: -6.3 }; 
 
-  const targetLookAt = new THREE.Vector3(0, 2.4, -1.3); // Face the terminal
+  // const targetLookAt = new THREE.Vector3(0, 2.4, -1.3); // not working correctly
+  //const targetLookAt = new THREE.Vector3(0, 2.4, -1.3); 
 
   // Disable OrbitControls during animation
   controls.enabled = false;
+
+  // Show portfolio page
+  const webglContainer = document.getElementById('webgl-container');
+  const portfolioPage = document.getElementById('portfolio-page');
 
   // Animate camera position and lookAt
   gsap.to(camera.position, {
@@ -126,16 +132,32 @@ function zoomToTerminal() {
     z: targetPosition.z,
     duration: 2,
     ease: 'power2.inOut',
-    onUpdate: () => {
-      camera.lookAt(targetLookAt);
+    // onUpdate: () => {
+    //   camera.lookAt(targetLookAt);
+    //   //console.log(targetLookAt);
+    // },
+    onStart: () => {
+      portfolioPage.style.display ='flex';
+      gsap.to(portfolioPage, {opacity: 1, duration: 1.3, ease: 'power2.inOut' });
+      gsap.to('#heading, .border', { 
+        opacity: 0,
+        x: '100%', 
+        duration: 1.1,
+        delay: 0.1,
+      }); 
     },
     onComplete: () => {
       console.log("Zoom complete");
+      stopRendering();
 
-      // Show portfolio page
-      const portfolioPage = document.getElementById('portfolio-page');
-      portfolioPage.style.display = 'flex';
-      portfolioPage.style.opacity = 1; // fade in
+      // Fade out WebGL
+      gsap.to(webglContainer, {
+        opacity: 0,
+        duration: 1,
+        onComplete: () => {
+          webglContainer.style.display = 'none'; // Stop rendering
+        },
+      });
     },
   });
 }
@@ -158,19 +180,44 @@ function onClick(event) {
 
 renderer.domElement.addEventListener('click', onClick);
 
-document.getElementById('close-portfolio').addEventListener('click', () => {
+document.getElementById('back-to-scene').addEventListener('click', () => {
+  const webglContainer = document.getElementById('webgl-container');
   const portfolioPage = document.getElementById('portfolio-page');
-  portfolioPage.style.opacity = 0; // fade out
-  setTimeout(() => {
-    portfolioPage.style.display = 'none';
-    controls.enabled = true; // re-enable controls
-  }, 1000); // wait for the fade-out to complete
+  resumeRendering();
+
+  // Fade out portfolio
+  gsap.to(portfolioPage, {
+    opacity: 0,
+    duration: 1,
+    onComplete: () => {
+      portfolioPage.style.display = 'none';
+      webglContainer.style.display = 'block';
+
+      // Fade in WebGL
+      gsap.to(webglContainer, { opacity: 1, duration: 1 });
+      controls.enabled = true; // Re-enable controls
+    },
+  });
 });
 
+let isRendering = true;
+
 function animate() {
+  if (!isRendering) return;
   requestAnimationFrame(animate);
   controls.update();
   renderer.render(scene, camera);
+}
+
+// Stop rendering when transitioning
+function stopRendering() {
+  isRendering = false;
+}
+
+// Resume rendering
+function resumeRendering() {
+  isRendering = true;
+  animate();
 }
 
 // Begin render loop

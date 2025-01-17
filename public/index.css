@@ -13,20 +13,24 @@
     position: fixed;
     width: 100%;
     padding: 32px;
+    opacity: 1;
+    transition: transform 2s ease-out;
   }
   
   .border {
     background: linear-gradient(90deg, gray, 90%, black);
     height: 2px;
     width: 80vw;
-    margin-top: 4px;
+    margin-top: 10px;
+    opacity: 1;
   }
   
   h1 {
     color: rgb(215, 215, 215);
     font-size: 4em;
-    margin: 0px;
+    margin: 0 auto;
     font-weight: 100;
+    text-align:justify;
   }
   
   #progress-container {
@@ -44,19 +48,53 @@
   }
   
   #portfolio-page {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: Arial, sans-serif;
-    font-size: 1.5rem;
-    opacity: 0; /* Initially invisible */
+    font-family: 'Courier New', monospace;
+    color: #00ffee;
+    background: linear-gradient(135deg, #67f39c, #ff00ff);
+    text-align: center;
+    z-index: 10;
+    opacity: 0;
     transition: opacity 1s ease-in-out;
+  }
+
+  #portfolio-page h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px #00ffee, 0 0 20px #ff00ff;
+  }
+  
+  #portfolio-page p {
+    font-size: 1.5rem;
+    max-width: 800px;
+    line-height: 1.6;
+  }
+  
+  #portfolio-page button {
+    margin-top: 2rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background: #00ffee;
+    color: black;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  #portfolio-page button:hover {
+    background: #ff00ff;
+    color: white;
+  }
+  
+  #webgl-container {
+    width: 100%;
+    height: 100%;
   }
