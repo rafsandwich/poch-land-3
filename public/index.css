@@ -3,13 +3,30 @@
     font-family: 'font1';
     src: local('font1'), url(fonts/neuropolitical-rg.otf), format('otf');
   }
+  /* @font-face {
+    font-family: 'Noto Sans Display';
+    font-style: normal;
+    font-weight: 400;
+    src: url(./fonts/NotoSansDisplay-Regular.ttf);
+  } */
+  html { 
+         /* font-family: Noto Sans Display; */
+         color: #c8fcfc;
+         font-size: 1em;
+         text-shadow: 0.06rem 0 0.06rem #ea36af, -0.125rem 0 0.06rem #75fa69;
+         letter-spacing: 0.125em;
+         animation-duration: 0.01s;
+         animation-name: textflicker;
+         animation-iteration-count: infinite;
+         animation-direction: alternate;
+  }
   
   body {
     background-color: black;
     margin: 0;
     font-family: 'VT323', monospace;
     color: #c8fcfc;
-    text-shadow: 0 0 1px #c8fcfc, 0 0 10px #c8fcfc;
+    /* text-shadow: 0 0 1px #c8fcfc, 0 0 10px #c8fcfc; */
     overflow: hidden;
   }
   
@@ -31,7 +48,7 @@
   }
   
   h1 {
-    color: rgb(215, 215, 215);
+    color: #c7dbdb;
     font-size: 4em;
     margin: 0 auto;
     margin-left: 10px;
@@ -71,23 +88,24 @@
     z-index: 10;
     opacity: 0;
     transition: opacity 1s ease-in-out;
+    /* animation: textflicker 1.5s infinite alternate ease-in-out; */
   }
 
   #portfolio-page h1 {
     color: rgb(29, 29, 29);
-    font-size: 3rem;
+    font-size: 5em;
     margin-bottom: 1rem;
     margin: 0 auto;
     font-weight: 100;
     font-family: 'VT323', monospace;
-    text-shadow: 0 0 10px #c9e6e6, 0 0 20px #c8fcfc;
+    /* text-shadow: 0 0 10px #c9e6e6, 0 0 20px #c8fcfc; */
   }
   
   #portfolio-page p {
     font-size: 1.5rem;
     max-width: 800px;
     line-height: 1.6;
-    text-shadow: 0 0 5px #c9e6e6, 0 0 10px #c8fcfc;
+    /* text-shadow: 0 0 5px #c9e6e6, 0 0 10px #c8fcfc; */
   }
   
   #portfolio-page button {
@@ -112,4 +130,73 @@
     width: 100%;
     height: 100%;
     filter: brightness(0.8) contrast(1.2);
+  }
+
+  @keyframes textflicker {
+    from {
+      text-shadow: 1px 0 0 #ea36af, -2px 0 0 #75fa69;
+    }
+    to {
+      text-shadow: 2px 0.5px 2px #ea36af, -1px -0.5px 2px #75fa69;
+    }
+  }
+
+  .option-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .option {
+    width: 450px;
+    height: 100px;
+    padding: 10px;
+    margin-top: 20px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    color: #c8fcfc;
+    cursor: pointer;
+    transition: border-color 0.3s ease; /* hover effect */
+    position: relative;
+  }
+  
+  .option:hover {
+    border-color: #c8fcfc; /* highlight on hover */
+  }
+  
+  /* Subtle glow */
+  .option:hover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #c8fcfc;
+    border-radius: inherit;
+    box-sizing: border-box;
+  }
+
+  .selection-indicator {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%) translateX(100%) scaleX(-1);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid #c8fcfc;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .option:hover .selection-indicator,
+  .option.selected .selection-indicator {
+    opacity: 1;
   }
