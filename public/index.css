@@ -1,0 +1,62 @@
+@font-face {
+    font-family: 'font1';
+    src: local('font1'), url(fonts/neuropolitical-rg.otf), format('otf');
+  }
+  
+  body {
+    background-color: black;
+    margin: 0;
+    font-family: 'font1';
+  }
+  
+  #heading {
+    position: fixed;
+    width: 100%;
+    padding: 32px;
+  }
+  
+  .border {
+    background: linear-gradient(90deg, gray, 90%, black);
+    height: 2px;
+    width: 80vw;
+    margin-top: 4px;
+  }
+  
+  h1 {
+    color: rgb(215, 215, 215);
+    font-size: 4em;
+    margin: 0px;
+    font-weight: 100;
+  }
+  
+  #progress-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #progress {
+    font-size: 3em;
+    color: white;
+  }
+  
+  #portfolio-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    font-size: 1.5rem;
+    opacity: 0; /* Initially invisible */
+    transition: opacity 1s ease-in-out;
+  }
