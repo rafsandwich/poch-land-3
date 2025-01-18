@@ -26,24 +26,41 @@
       <div id="progress">Booting...</div>
     </div>
     <div id="webgl-container"></div>
+
     <div id="portfolio-page" style="display: none;">
       <h1>now you're inside, what will you do?</h1>
       <p>~ potentially a randomised message here ~</p>
       <div class="option-container">
-        <div class="option">
+        <div class="option" data-page="page-development">
           <span>development</span>
           <div class="selection-indicator"></div> 
         </div>
-        <div class="option">
+        <div class="option" data-page="page-cabaret">
           <span>other stuff</span>
           <div class="selection-indicator"></div> 
         </div>
-        <div class="option">
+        <div class="option" data-page="page-messagetomountains">
           <span>messagetomountains</span>
           <div class="selection-indicator"></div> 
         </div>
       </div>
     </div>
+
+    <div id="page-development" style="display: none;"> 
+      <h2>dev page</h2>
+      <p>this is the development page.</p>
+    </div>
+  
+    <div id="page-messagetomountains" style="display: none;"> 
+      <h2>messagetomountains page</h2>
+      <p>this is the messagetomountains page.</p>
+    </div>
+  
+    <div id="page-cabaret" style="display: none;"> 
+      <h2>cabaret page</h2>
+      <p>welcome to the cabaret.</p>
+    </div>
+
     <script type="module" src="./main.js"></script>
 	</body>
 </html>

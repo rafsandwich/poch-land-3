@@ -180,6 +180,50 @@ function onClick(event) {
 
 renderer.domElement.addEventListener('click', onClick);
 
+// Add event listeners for option clicks
+const options = document.querySelectorAll('.option');
+let selectedOption = null; 
+
+options.forEach((option) => {
+  option.addEventListener('click', () => {
+    // Deselect previous option
+    if (selectedOption) {
+      selectedOption.classList.remove('selected');
+    }
+
+    // Select the clicked option
+    option.classList.add('selected');
+    selectedOption = option;
+
+    // Get page ID from data attribute in HTML
+    const pageId = option.getAttribute('data-page'); 
+    navigateToPage(pageId); 
+  });
+});
+
+function navigateToPage(pageId) {
+  
+  // Hide the portfolio page
+  const portfolioPage = document.getElementById('portfolio-page');
+  const pages = document.querySelectorAll('#page-development, #page-messagetomountains, #page-cabaret');
+
+  // portfolioPage.style.display = 'none'; 
+  // pages.forEach(page => page.style.display ='none');
+
+  // Show the selected page
+  console.log(`Navigating to ${pageId} page...`); 
+
+  const selectedPage = document.getElementById(pageId);
+  
+  if (selectedPage) {
+    selectedPage.style.display = 'flex';
+    gsap.to(selectedPage, { opacity: 1, duration: 0});
+  } else {
+    console.error(`Page with ID "${pageId}" not found.`);
+  }
+  
+}
+
 // document.getElementById('back-to-scene').addEventListener('click', () => {
 //   const webglContainer = document.getElementById('webgl-container');
 //   const portfolioPage = document.getElementById('portfolio-page');
