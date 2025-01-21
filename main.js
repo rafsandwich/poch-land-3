@@ -180,9 +180,32 @@ function onClick(event) {
 
 renderer.domElement.addEventListener('click', onClick);
 
+// function navigateToPage(pageId) {
+  
+//   // Hide the portfolio page
+//   const portfolioPage = document.getElementById('portfolio-page');
+//   const pages = document.querySelectorAll('#page-development, #page-messagetomountains, #page-cabaret');
+
+//   // portfolioPage.style.display = 'none'; 
+//   // pages.forEach(page => page.style.display ='none');
+
+//   // Show the selected page
+//   console.log(`Navigating to ${pageId} page...`); 
+
+//   const selectedPage = document.getElementById(pageId);
+  
+//   if (selectedPage) {
+//     selectedPage.style.display = 'flex';
+//     gsap.to(selectedPage, { opacity: 1, duration: 0});
+//   } else {
+//     console.error(`Page with ID "${pageId}" not found.`);
+//   }
+  
+// }
+
 // Add event listeners for option clicks
 const options = document.querySelectorAll('.option');
-let selectedOption = null; 
+let selectedOption = null;
 
 options.forEach((option) => {
   option.addEventListener('click', () => {
@@ -196,33 +219,46 @@ options.forEach((option) => {
     selectedOption = option;
 
     // Get page ID from data attribute in HTML
-    const pageId = option.getAttribute('data-page'); 
-    navigateToPage(pageId); 
+    const pageId = option.getAttribute('data-page');
+    navigateToPage(pageId);
   });
 });
 
 function navigateToPage(pageId) {
-  
-  // Hide the portfolio page
-  const portfolioPage = document.getElementById('portfolio-page');
-  const pages = document.querySelectorAll('#page-development, #page-messagetomountains, #page-cabaret');
-
-  // portfolioPage.style.display = 'none'; 
-  // pages.forEach(page => page.style.display ='none');
-
-  // Show the selected page
-  console.log(`Navigating to ${pageId} page...`); 
-
+  const portfolioPageContent = document.getElementById('portfolio-page').children; // children so not background
   const selectedPage = document.getElementById(pageId);
-  
-  if (selectedPage) {
-    selectedPage.style.display = 'flex';
-    gsap.to(selectedPage, { opacity: 1, duration: 0});
-  } else {
+
+  if (!selectedPage) {
     console.error(`Page with ID "${pageId}" not found.`);
+    return;
   }
-  
+
+  // Swipe the portfolio page content up, not the background
+  gsap.to(portfolioPageContent, {
+    y: '-200%',
+    opacity: 0,
+    duration: 0.8,
+    ease: 'power2.inOut',
+    onComplete: () => {
+
+      
+
+      if (selectedPage) {
+        selectedPage.style.display = 'block';
+        gsap.to(selectedPage, { opacity: 1, duration: 0});
+      } else {
+        console.error(`Page with ID "${pageId}" not found.`);
+      }
+
+      delay=1;
+      const portfolioPage = document.getElementById('portfolio-page');
+      portfolioPage.style.display = 'none'; 
+
+    },
+  });
 }
+
+
 
 // document.getElementById('back-to-scene').addEventListener('click', () => {
 //   const webglContainer = document.getElementById('webgl-container');

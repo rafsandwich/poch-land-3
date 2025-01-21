@@ -213,9 +213,22 @@
     justify-content: center;
     align-items: center;
     color: #202020;
-    background: radial-gradient(circle, #c8fcfc 0%, #242424 100%);
     text-align: center;
     z-index: 10;
     opacity: 0;
     transition: opacity 1s ease-in-out; 
+    text-shadow: 0.001rem 0 0.1rem #c8fcfc;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+#page-development {
+  background: radial-gradient(circle, #f4d4b4 0%, #e9ceb3 100%);
+}
+
+#page-messagetomountains {
+  background: radial-gradient(circle, #F5C7C7 0%, #e0bdbd 100%);
+}
+
+#page-cabaret {
+  background: radial-gradient(circle, #8E98F9 0%, #868ed6 100%);
 }
