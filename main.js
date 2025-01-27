@@ -220,18 +220,31 @@ options.forEach((option) => {
 
     // Get page ID from data attribute in HTML
     const pageId = option.getAttribute('data-page');
-    navigateToPage(pageId);
+    const activeLinkId = option.getAttribute('data-active-link');
+    const activeLink = document.getElementById(activeLinkId);
+    navigateToPage(pageId, activeLink);
   });
 });
 
-function navigateToPage(pageId) {
-  const portfolioPageContent = document.getElementById('portfolio-page').children; // children so not background
+// PAGE NAVIGATION
+function navigateToPage(pageId, activeLink) {
+  const portfolioPageContent = document.getElementById('portfolio-page').children; // children so not background, goal to swipe text elements up
   const selectedPage = document.getElementById(pageId);
 
   if (!selectedPage) {
     console.error(`Page with ID "${pageId}" not found.`);
     return;
   }
+
+
+  // Update navbar links for active state
+  const links = document.querySelectorAll('.navbar a');
+  links.forEach(link => link.classList.remove('active'));  // Remove 'active' from all links
+  if (activeLink) {
+    activeLink.classList.add('active');  // Add 'active' to the selected link
+    moveSlider(activeLink); // Move slider to active link
+  }
+
 
   // Swipe the portfolio page content up, not the background
   gsap.to(portfolioPageContent, {
@@ -241,18 +254,42 @@ function navigateToPage(pageId) {
     ease: 'power2.inOut',
     onComplete: () => {
 
-      
-
       if (selectedPage) {
         selectedPage.style.display = 'block';
         gsap.to(selectedPage, { opacity: 1, duration: 0});
+        
+        
       } else {
         console.error(`Page with ID "${pageId}" not found.`);
       }
 
-      delay=1;
-      const portfolioPage = document.getElementById('portfolio-page');
-      portfolioPage.style.display = 'none'; 
+      // Fade in new page first, then hide old page
+      gsap.to(selectedPage, { opacity: 1, duration: 1 }, "fade-in")
+        .then(() => {
+          document.getElementById('portfolio-page').style.visibility = 'hidden';
+        });
+
+
+        console.log(activeLink);
+        if (activeLink) {
+          setTimeout(() => {
+            moveSlider(activeLink);
+          }, 100);
+        }
+
+        // Add hover-over effect to move the slider
+        links.forEach(link => {
+          link.addEventListener('mouseenter', () => moveSlider(link));
+        });
+
+        // Keep slider on the active link when not hovering
+        navbar.addEventListener('mouseleave', () => {
+          if (activeLink) moveSlider(activeLink);
+        });
+
+      // delay=1; // wow this was doing nothing but lowkey working!
+      // const portfolioPage = document.getElementById('portfolio-page');
+      // portfolioPage.style.display = 'none'; 
 
     },
   });
@@ -299,6 +336,28 @@ function stopRendering() {
 //   isRendering = true;
 //   animate();
 // }
+
+const navbar = document.querySelector('.navbar');
+const slider = document.querySelector('.slider');
+const links = document.querySelectorAll('.navbar a');
+console.log(links);
+
+// Function to move the slider
+function moveSlider(link) {
+  const rect = link.getBoundingClientRect(); // Get the link's position
+  const navbarRect = navbar.getBoundingClientRect(); // Get navbar's position
+
+  const sliderWidthAdjustment = 1.5; // Shrink the width slightly
+  const sliderLeftAdjustment = -1.5; // Offset to the left slightly due to weird behaviour
+
+  slider.style.width = `${rect.width - sliderWidthAdjustment}px`; // Adjust width
+  slider.style.left = `${rect.left - navbarRect.left + sliderLeftAdjustment}px`; // Adjust position
+
+  // slider.style.width = `${rect.width}px`; // Match the link's width
+  // slider.style.left = `${rect.left - navbarRect.left}px`; // Position the slider
+}
+
+
 
 // Begin render loop
 animate();

@@ -31,32 +31,51 @@
       <h1>now you're inside, what will you do?</h1>
       <p>~ potentially a randomised message here ~</p>
       <div class="option-container">
-        <div class="option" data-page="page-development">
+        <div class="option" data-page="page-development" data-active-link="development-link">
           <span>development</span>
           <div class="selection-indicator"></div> 
         </div>
-        <div class="option" data-page="page-cabaret">
+        <div class="option" data-page="page-cabaret" data-active-link="cabaret-link">
           <span>other stuff</span>
           <div class="selection-indicator"></div> 
         </div>
-        <div class="option" data-page="page-messagetomountains">
+        <div class="option" data-page="page-messagetomountains" data-active-link="messagetomountains-link">
           <span>messagetomountains</span>
           <div class="selection-indicator"></div> 
         </div>
       </div>
     </div>
 
+    
     <div id="page-development" style="display: none;"> 
+      <nav class="navbar">
+        <div class ="slider"></div>
+        <a href="#development" class="active" id = "development-link">development</a>
+        <a href="#messagetomountains">messagetomountains</a>
+        <a href="#cabaret">the cabaret</a>
+      </nav> 
       <h2>dev page</h2>
       <p>this is the development page.</p>
     </div>
   
-    <div id="page-messagetomountains" style="display: none;"> 
+    <div id="page-messagetomountains" style="display: none;">
+      <nav class="navbar">
+        <div class ="slider"></div>
+        <a href="#development">development</a>
+        <a href="#messagetomountains" class="active" id = "messagetomountains-link">messagetomountains</a>
+        <a href="#cabaret">the cabaret</a>
+      </nav> 
       <h2>messagetomountains page</h2>
       <p>this is the messagetomountains page.</p>
     </div>
   
-    <div id="page-cabaret" style="display: none;"> 
+    <div id="page-cabaret" style="display: none;">
+      <nav class="navbar">
+        <div class ="slider"></div>
+        <a href="#development">development</a>
+        <a href="#messagetomountains">messagetomountains</a>
+        <a href="#cabaret" class="active" id = "cabaret-link">the cabaret</a>
+      </nav>  
       <h2>cabaret page</h2>
       <p>welcome to the cabaret.</p>
     </div>
