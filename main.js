@@ -116,7 +116,6 @@ function zoomToTerminal() {
   const targetPosition = { x: -5.2, y: 8.8, z: -6.3 }; 
 
   // const targetLookAt = new THREE.Vector3(0, 2.4, -1.3); // not working correctly
-  //const targetLookAt = new THREE.Vector3(0, 2.4, -1.3); 
 
   // Disable OrbitControls during animation
   controls.enabled = false;
@@ -180,29 +179,6 @@ function onClick(event) {
 
 renderer.domElement.addEventListener('click', onClick);
 
-// function navigateToPage(pageId) {
-  
-//   // Hide the portfolio page
-//   const portfolioPage = document.getElementById('portfolio-page');
-//   const pages = document.querySelectorAll('#page-development, #page-messagetomountains, #page-cabaret');
-
-//   // portfolioPage.style.display = 'none'; 
-//   // pages.forEach(page => page.style.display ='none');
-
-//   // Show the selected page
-//   console.log(`Navigating to ${pageId} page...`); 
-
-//   const selectedPage = document.getElementById(pageId);
-  
-//   if (selectedPage) {
-//     selectedPage.style.display = 'flex';
-//     gsap.to(selectedPage, { opacity: 1, duration: 0});
-//   } else {
-//     console.error(`Page with ID "${pageId}" not found.`);
-//   }
-  
-// }
-
 // Add event listeners for option clicks
 const options = document.querySelectorAll('.option');
 let selectedOption = null;
@@ -220,31 +196,71 @@ options.forEach((option) => {
 
     // Get page ID from data attribute in HTML
     const pageId = option.getAttribute('data-page');
-    const activeLinkId = option.getAttribute('data-active-link');
-    const activeLink = document.getElementById(activeLinkId);
-    navigateToPage(pageId, activeLink);
+    navigateToPage(pageId);
   });
 });
 
-// PAGE NAVIGATION
-function navigateToPage(pageId, activeLink) {
+// navbar
+const navItems = document.querySelectorAll('.nav-item');
+const navBorder = document.getElementById('nav-border');
+const pages = document.querySelectorAll('.page');
+const portfolioPage = document.getElementById('portfolio-page');
+
+let activeIndex = 0;
+
+function updateBorderPosition(index) {
+  const activeItem = navItems[index];
+  const rect = activeItem.getBoundingClientRect();
+  const navRect = activeItem.parentNode.getBoundingClientRect();
+  navBorder.style.width = `${rect.width + 20}px`;
+  navBorder.style.height = `${rect.height + 5}px`;
+  navBorder.style.transform = `translate(${rect.left - navRect.left - 15}px, -5px)`;
+}
+
+const pageColours = {
+  "page-development": "#e9ceb3",
+  "page-messagetomountains": "#82c1db",
+  "page-cabaret": "#868ed6",
+};
+
+// For using the navbar to toggle between pages
+function navbarToPage(pageId) {
+
+  // Hide all pages
+  pages.forEach((page) => {
+    page.style.display = 'none';
+    page.classList.remove('active');
+  });
+
+  const portfolioPageContent = document.getElementById('portfolio-page')
+  portfolioPageContent.style.display= 'none';
+
+  // Show the selected page
+  const selectedPage = document.getElementById(pageId);
+  if (selectedPage) {
+    selectedPage.style.display = 'block';
+    selectedPage.classList.add('active');
+    selectedPage.style.opacity = 1;
+
+    // Change navbar background colour based on the page
+    const navbar = document.querySelector('nav');
+    navbar.style.backgroundColor = pageColours[pageId] || "#FFFFFF"; // default colour
+  } else {
+    console.error(`Page with ID "${pageId}" not found.`);
+  }
+}
+
+
+// Initial navigate to page from options screen
+function navigateToPage(pageId) {
   const portfolioPageContent = document.getElementById('portfolio-page').children; // children so not background, goal to swipe text elements up
   const selectedPage = document.getElementById(pageId);
+  const navbar = document.querySelector('nav');
 
   if (!selectedPage) {
     console.error(`Page with ID "${pageId}" not found.`);
     return;
   }
-
-
-  // Update navbar links for active state
-  const links = document.querySelectorAll('.navbar a');
-  links.forEach(link => link.classList.remove('active'));  // Remove 'active' from all links
-  if (activeLink) {
-    activeLink.classList.add('active');  // Add 'active' to the selected link
-    moveSlider(activeLink); // Move slider to active link
-  }
-
 
   // Swipe the portfolio page content up, not the background
   gsap.to(portfolioPageContent, {
@@ -253,69 +269,59 @@ function navigateToPage(pageId, activeLink) {
     duration: 0.8,
     ease: 'power2.inOut',
     onComplete: () => {
-
       if (selectedPage) {
         selectedPage.style.display = 'block';
-        gsap.to(selectedPage, { opacity: 1, duration: 0});
-        
-        
+
+        // Fade in the selected page
+        gsap.to(selectedPage, { opacity: 1, duration: 0, ease: 'power2.out' });
+
+         // Change navbar background colour
+         navbar.style.backgroundColor = pageColours[pageId] || "#FFFFFF";
       } else {
         console.error(`Page with ID "${pageId}" not found.`);
       }
 
-      // Fade in new page first, then hide old page
-      gsap.to(selectedPage, { opacity: 1, duration: 1 }, "fade-in")
-        .then(() => {
-          document.getElementById('portfolio-page').style.visibility = 'hidden';
-        });
+      // Ensure the navbar is visible and fade it in
+      navbar.style.visibility = 'visible';
+      navbar.style.display = 'flex';
+      gsap.to(navbar, { opacity: 1, duration: 0, ease: 'power2.out' });
 
-
-        console.log(activeLink);
-        if (activeLink) {
-          setTimeout(() => {
-            moveSlider(activeLink);
-          }, 100);
+      // Update navbar based on selection
+      navItems.forEach((item, index) => {
+        if (item.getAttribute('data-page') === pageId) {
+          navItems[activeIndex].classList.remove('active');
+          item.classList.add('active');
+          activeIndex = index;
+          updateBorderPosition(index);
         }
+      });
 
-        // Add hover-over effect to move the slider
-        links.forEach(link => {
-          link.addEventListener('mouseenter', () => moveSlider(link));
-        });
-
-        // Keep slider on the active link when not hovering
-        navbar.addEventListener('mouseleave', () => {
-          if (activeLink) moveSlider(activeLink);
-        });
-
-      // delay=1; // wow this was doing nothing but lowkey working!
-      // const portfolioPage = document.getElementById('portfolio-page');
-      // portfolioPage.style.display = 'none'; 
-
+      portfolioPage.classList.remove('active');
     },
   });
 }
 
+// Add events for each navbar item
+navItems.forEach((item, index) => {
+  item.addEventListener('mouseover', () => {
+      updateBorderPosition(index);
+  });
+  item.addEventListener('mouseout', () => {
+      updateBorderPosition(activeIndex);
+  });
+  item.addEventListener('click', () => {
+      navItems[activeIndex].classList.remove('active');
+      item.classList.add('active');
+      activeIndex = index;
+      updateBorderPosition(index);
 
+      const pageId = item.getAttribute('data-page');
+      navbarToPage(pageId);
+  });
+});
 
-// document.getElementById('back-to-scene').addEventListener('click', () => {
-//   const webglContainer = document.getElementById('webgl-container');
-//   const portfolioPage = document.getElementById('portfolio-page');
-//   resumeRendering();
-
-//   // Fade out portfolio
-//   gsap.to(portfolioPage, {
-//     opacity: 0,
-//     duration: 1,
-//     onComplete: () => {
-//       portfolioPage.style.display = 'none';
-//       webglContainer.style.display = 'block';
-
-//       // Fade in WebGL
-//       gsap.to(webglContainer, { opacity: 1, duration: 1 });
-//       controls.enabled = true; // Re-enable controls
-//     },
-//   });
-// });
+// Initialise the border position
+updateBorderPosition(activeIndex);
 
 let isRendering = true;
 
@@ -330,34 +336,6 @@ function animate() {
 function stopRendering() {
   isRendering = false;
 }
-
-// // Resume rendering
-// function resumeRendering() {
-//   isRendering = true;
-//   animate();
-// }
-
-const navbar = document.querySelector('.navbar');
-const slider = document.querySelector('.slider');
-const links = document.querySelectorAll('.navbar a');
-console.log(links);
-
-// Function to move the slider
-function moveSlider(link) {
-  const rect = link.getBoundingClientRect(); // Get the link's position
-  const navbarRect = navbar.getBoundingClientRect(); // Get navbar's position
-
-  const sliderWidthAdjustment = 1.5; // Shrink the width slightly
-  const sliderLeftAdjustment = -1.5; // Offset to the left slightly due to weird behaviour
-
-  slider.style.width = `${rect.width - sliderWidthAdjustment}px`; // Adjust width
-  slider.style.left = `${rect.left - navbarRect.left + sliderLeftAdjustment}px`; // Adjust position
-
-  // slider.style.width = `${rect.width}px`; // Match the link's width
-  // slider.style.left = `${rect.left - navbarRect.left}px`; // Position the slider
-}
-
-
 
 // Begin render loop
 animate();

@@ -27,55 +27,46 @@
     </div>
     <div id="webgl-container"></div>
 
+    <nav style="visibility: hidden;">
+      <div class="nav-container">
+          <div class="nav-border" id="nav-border"></div>
+          <a href="#development" class="nav-item" data-page="page-development">development</a>
+          <a href="#messagetomountains" class="nav-item" data-page="page-messagetomountains">messagetomountains</a>
+          <a href="#cabaret" class="nav-item" data-page="page-cabaret">the cabaret</a>
+      </div>
+    </nav> 
+
     <div id="portfolio-page" style="display: none;">
       <h1>now you're inside, what will you do?</h1>
       <p>~ potentially a randomised message here ~</p>
       <div class="option-container">
-        <div class="option" data-page="page-development" data-active-link="development-link">
+        <div class="option" data-page="page-development">
           <span>development</span>
           <div class="selection-indicator"></div> 
         </div>
-        <div class="option" data-page="page-cabaret" data-active-link="cabaret-link">
-          <span>other stuff</span>
+        <div class="option" data-page="page-messagetomountains">
+          <span>messagetomountains</span>
           <div class="selection-indicator"></div> 
         </div>
-        <div class="option" data-page="page-messagetomountains" data-active-link="messagetomountains-link">
-          <span>messagetomountains</span>
+        <div class="option" data-page="page-cabaret">
+          <span>other stuff</span>
           <div class="selection-indicator"></div> 
         </div>
       </div>
     </div>
 
     
-    <div id="page-development" style="display: none;"> 
-      <nav class="navbar">
-        <div class ="slider"></div>
-        <a href="#development" class="active" id = "development-link">development</a>
-        <a href="#messagetomountains">messagetomountains</a>
-        <a href="#cabaret">the cabaret</a>
-      </nav> 
+    <div id="page-development" style="display: none;" class="page"> 
       <h2>dev page</h2>
       <p>this is the development page.</p>
     </div>
   
-    <div id="page-messagetomountains" style="display: none;">
-      <nav class="navbar">
-        <div class ="slider"></div>
-        <a href="#development">development</a>
-        <a href="#messagetomountains" class="active" id = "messagetomountains-link">messagetomountains</a>
-        <a href="#cabaret">the cabaret</a>
-      </nav> 
+    <div id="page-messagetomountains" style="display: none;" class="page">
       <h2>messagetomountains page</h2>
       <p>this is the messagetomountains page.</p>
     </div>
   
-    <div id="page-cabaret" style="display: none;">
-      <nav class="navbar">
-        <div class ="slider"></div>
-        <a href="#development">development</a>
-        <a href="#messagetomountains">messagetomountains</a>
-        <a href="#cabaret" class="active" id = "cabaret-link">the cabaret</a>
-      </nav>  
+    <div id="page-cabaret" style="display: none;" class="page">
       <h2>cabaret page</h2>
       <p>welcome to the cabaret.</p>
     </div>
