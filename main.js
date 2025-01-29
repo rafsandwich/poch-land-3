@@ -218,7 +218,7 @@ function updateBorderPosition(index) {
 }
 
 const pageColours = {
-  "page-development": "#e9ceb3",
+  "page-development": "#d5b99d",
   "page-messagetomountains": "#82c1db",
   "page-cabaret": "#868ed6",
 };
